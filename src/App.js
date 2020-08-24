@@ -1,48 +1,40 @@
 import React, { Component } from 'react';
 import './App.css';
-import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import 'ag-grid-community/dist/styles/ag-theme-dark.css';
+import Rom from './Rom';
+import Score from './Score';
 
 class App extends Component {
-  componentDidMount() {
-    fetch('http://localhost:8080/greeting')
-        .then(res => res.json())
-        .then((data) => {
-          console.log('data ' + JSON.stringify(data));
-          this.setState({ rowData: data })
-        })
-        .catch(console.log)
-  }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      columnDefs: [{
-        headerName: "Game", field: "game", sortable: true, filter: true
-      }, {
-        headerName: "Player", field: "player", sortable: true, filter: true
-      }, {
-        headerName: "Score", field: "score", sortable: true, filter: true
-      }]
+    constructor(props) {
+        super(props);
+        this.state = {
+            showIt: false
+        }
     }
-  }
 
-  render() {
-    return (
-        <div
-            className="ag-theme-alpine"
-            style={{
-              height: '250px',
-              width: '600px' }}
-        >
-          <AgGridReact
-              columnDefs={this.state.columnDefs}
-              rowData={this.state.rowData}>
-          </AgGridReact>
-        </div>
-    );
-  }
+    onClick(event) {
+        console.log(event.data)
+        this.setState({
+            showIt: true,
+            details: event.data
+        })
+    }
+
+    render() {
+        return (
+            <div>
+                {!this.state.showIt &&
+                    <Rom onChosen={this.onClick.bind(this)}/>
+                }
+                {this.state.showIt &&
+                    <Score details={this.state.details}/>
+                }
+            </div>
+        );
+    }
+
 }
 
 export default App;
