@@ -1,37 +1,48 @@
 import React, { Component } from 'react';
-import './App.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-dark.css';
-import Rom from './Rom';
-import Score from './Score';
+import Table from 'react-bootstrap/Table';
+import ListGroup from 'react-bootstrap/ListGroup';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import './App.css';
 
 class App extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            showIt: false
-        }
-    }
-
-    onClick(event) {
-        console.log(event.data)
-        this.setState({
-            showIt: true,
-            details: event.data
-        })
+    componentDidMount() {
+        fetch('http://localhost:8080/list')
+            .then(res => res.json())
+            .then((data) => {
+                this.setState({ data })
+            })
+            .catch(console.log)
     }
 
     render() {
         return (
-            <div>
-                {!this.state.showIt &&
-                    <Rom onChosen={this.onClick.bind(this)}/>
-                }
-                {this.state.showIt &&
-                    <Score details={this.state.details}/>
-                }
-            </div>
+            <Table bordered>
+              <thead>
+                <tr>
+                  <th>Game</th>
+                  <th>Top players</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state && this.state.data && this.state.data.map(game => (
+                    <tr>
+                      <td>{game.name}</td>
+                      <td>
+                          <ListGroup>
+                            {game.highscores.map((highscore, index) => (
+                                <ListGroup.Item>{index+1}. {highscore.name} ({highscore.score})</ListGroup.Item>
+                            ))}
+                          </ListGroup>
+                      </td>
+                    </tr>
+                ))}
+              </tbody>
+            </Table>
         );
     }
 
