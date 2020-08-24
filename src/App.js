@@ -3,6 +3,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-dark.css';
 import Table from 'react-bootstrap/Table';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Moment from 'react-moment';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -25,6 +26,7 @@ class App extends Component {
               <thead>
                 <tr>
                   <th>Game</th>
+                  <th>Last time played</th>
                   <th>Top players</th>
                 </tr>
               </thead>
@@ -32,6 +34,10 @@ class App extends Component {
                 {this.state && this.state.data && this.state.data.map(game => (
                     <tr>
                       <td>{game.name}</td>
+                      <td>
+                        <Moment fromNow="true">{game.lastModifiedTime}</Moment>
+                        <p class="text-secondary"><Moment format="DD/MM-YYYY HH:mm:ss">{game.lastModifiedTime}</Moment></p>
+                      </td>
                       <td>
                           <ListGroup>
                             {game.highscores.map((highscore, index) => (
