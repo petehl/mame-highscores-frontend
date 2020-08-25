@@ -12,12 +12,24 @@ import './App.css';
 class App extends Component {
 
     componentDidMount() {
-        fetch('http://localhost:8080/list')
+        this.updateFromApi()
+        this.interval = setInterval(() => {
+          this.updateFromApi();
+        }, 5000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    updateFromApi() {
+        fetch('http://192.168.25.104:8080/list')
             .then(res => res.json())
             .then((data) => {
                 this.setState({ data })
             })
             .catch(console.log)
+
     }
 
     render() {
@@ -31,17 +43,17 @@ class App extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.state && this.state.data && this.state.data.map(game => (
-                    <tr>
+                {this.state && this.state.data && this.state.data.map((game, index) => (
+                    <tr key={index}>
                       <td>{game.name}</td>
                       <td>
                         <Moment fromNow="true">{game.lastModifiedTime}</Moment>
-                        <p class="text-secondary"><Moment format="DD/MM-YYYY HH:mm:ss">{game.lastModifiedTime}</Moment></p>
+                        <p><Moment format="DD/MM-YYYY HH:mm:ss">{game.lastModifiedTime}</Moment></p>
                       </td>
                       <td>
                           <ListGroup>
                             {game.highscores.map((highscore, index) => (
-                                <ListGroup.Item>{index+1}. {highscore.name} ({highscore.score})</ListGroup.Item>
+                                <ListGroup.Item key={index}>{index+1}. {highscore.name} ({highscore.score})</ListGroup.Item>
                             ))}
                           </ListGroup>
                       </td>
