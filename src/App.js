@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-dark.css';
 import Table from 'react-bootstrap/Table';
@@ -33,6 +35,8 @@ class App extends Component {
     }
 
     render() {
+        const { t } = this.props;
+
         return (
             <Table bordered>
               <thead>
@@ -45,7 +49,7 @@ class App extends Component {
               <tbody>
                 {this.state && this.state.data && this.state.data.map((game, index) => (
                     <tr key={index}>
-                      <td>{game.name}</td>
+                      <td>{t(game.name)}</td>
                       <td>
                         <Moment fromNow="true">{game.lastModifiedTime}</Moment>
                         <p><Moment format="DD/MM-YYYY HH:mm:ss">{game.lastModifiedTime}</Moment></p>
@@ -63,7 +67,6 @@ class App extends Component {
             </Table>
         );
     }
-
 }
 
-export default App;
+export default withTranslation()(App)
