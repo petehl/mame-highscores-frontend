@@ -25,7 +25,7 @@ class App extends Component {
     }
 
     updateFromApi() {
-        fetch('http://192.168.25.104:8080/list')
+        fetch('http://mufkarkade.local:8080/list')
             .then(res => res.json())
             .then((data) => {
                 this.setState({ data })
