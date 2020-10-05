@@ -1,72 +1,22 @@
-import React, { Component } from 'react';
-import { withTranslation } from 'react-i18next';
-
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-dark.css';
-import Table from 'react-bootstrap/Table';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Moment from 'react-moment';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Scoreboard from "./Scoreboard";
+import Admin from "./Admin";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import './App.css';
 
-class App extends Component {
-
-    componentDidMount() {
-        this.updateFromApi()
-        this.interval = setInterval(() => {
-          this.updateFromApi();
-        }, 5000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
-
-    updateFromApi() {
-        fetch('http://mufkarkade.local:8080/list')
-            .then(res => res.json())
-            .then((data) => {
-                this.setState({ data })
-            })
-            .catch(console.log)
-
-    }
-
-    render() {
-        const { t } = this.props;
-
-        return (
-            <Table bordered>
-              <thead>
-                <tr>
-                  <th>Game</th>
-                  <th>Last time played</th>
-                  <th>Top players</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state && this.state.data && this.state.data.map((game, index) => (
-                    <tr key={index}>
-                      <td>{t(game.name)}</td>
-                      <td>
-                        <Moment fromNow="true">{game.lastModifiedTime}</Moment>
-                        <p><Moment format="DD/MM-YYYY HH:mm:ss">{game.lastModifiedTime}</Moment></p>
-                      </td>
-                      <td>
-                          <ListGroup>
-                            {game.highscores.map((highscore, index) => (
-                                <ListGroup.Item key={index}>{index+1}. {highscore.name} ({highscore.score})</ListGroup.Item>
-                            ))}
-                          </ListGroup>
-                      </td>
-                    </tr>
-                ))}
-              </tbody>
-            </Table>
-        );
-    }
+function App() {
+  return (
+    <div className="App">
+      <Router>
+        <Switch>
+          <Route path="/" exact component={() => <Scoreboard />} />
+          <Route path="/admin" exact component={() => <Admin />} />
+        </Switch>
+      </Router>
+    </div>
+  );
 }
 
-export default withTranslation()(App)
+export default App;
