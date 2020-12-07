@@ -2,6 +2,11 @@ body {
     font-size: 3em;
 }
 
+
+.main {
+    padding: 1rem;
+}
+
 .table td {
     border-top: 1px solid rgba(255, 255, 255, .2);
 }

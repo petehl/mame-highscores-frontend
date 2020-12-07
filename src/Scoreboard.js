@@ -57,33 +57,34 @@ function Scoreboard() {
           </div>
         </>
       )}
-      <Table borderless>
-        <thead>
-        <tr>
-          <th>Game</th>
-          <th>Last time played</th>
-          <th>Top players</th>
-        </tr>
-        </thead>
-        <tbody>
-        {data && data.map((game, index) => (
-          <tr key={index}>
-            <td>{t(game.name)}</td>
-            <td>
-              <Moment fromNow="true">{game.lastModifiedTime}</Moment>
-              <p><Moment format="DD/MM-YYYY HH:mm:ss">{game.lastModifiedTime}</Moment></p>
-            </td>
-            <td>
-              <ListGroup>
-                {game.highscores.map((highscore, index) => (
-                  <ListGroup.Item key={index}>{index + 1}. {highscore.alias} ({highscore.score})</ListGroup.Item>
-                ))}
-              </ListGroup>
-            </td>
+      <div className="main user-select-none">
+        <Table borderless>
+          <thead>
+          <tr>
+            <th>Game</th>
+            <th>Last time played</th>
+            <th>Top players</th>
           </tr>
-        ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+          {data && data.map((game, index) => (
+            <tr key={index}>
+              <td>{t(game.name)}</td>
+              <td>
+                <Moment fromNow="true" withTitle titleFormat="DD/MM-YYYY HH:mm:ss">{game.lastModifiedTime}</Moment>
+              </td>
+              <td>
+                <ListGroup>
+                  {game.highscores.map((highscore, index) => (
+                    <ListGroup.Item key={index}>{index + 1}. {highscore.alias} ({highscore.score})</ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </td>
+            </tr>
+          ))}
+          </tbody>
+        </Table>
+      </div>
       <div className="pi"><a href="./admin">𝜋</a></div>
     </>
   );
