@@ -76,7 +76,7 @@ function Scoreboard() {
               <td>
                 <ListGroup>
                   {game.highscores.map((highscore, index) => (
-                    <ListGroup.Item key={index}>{index + 1}. {highscore.alias} ({highscore.score})</ListGroup.Item>
+                    <ListGroup.Item className={"place" + index} key={index}>{index + 1}. {highscore.alias} ({highscore.score})</ListGroup.Item>
                   ))}
                 </ListGroup>
               </td>
