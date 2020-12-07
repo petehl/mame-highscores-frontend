@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { useFieldArray, useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 
 import './Admin.css';
 
 const URL = 'http://mufkarkade.local:8080/admin';
 
 export default function Admin() {
-  const { t } = useTranslation();
   const [data, setData] = useState();
+  const history = useHistory();
   const { register, handleSubmit, control, reset } = useForm();
   const { fields: players, append: appendPlayer, remove: removePlayer } = useFieldArray({
     control,
@@ -30,7 +30,6 @@ export default function Admin() {
   const deletePlayer = (index) => removePlayer(index);
 
   const onSubmit = async (data) => {
-    console.log('POST')
     await fetch(URL, {
       method: 'POST',
       headers: {
@@ -38,6 +37,7 @@ export default function Admin() {
       },
       body: JSON.stringify(data)
     });
+    history.push("/");
   };
 
   return (

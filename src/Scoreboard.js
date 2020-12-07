@@ -33,7 +33,7 @@ class Scoreboard extends Component {
     const { t } = this.props;
 
     return (
-      <Table bordered>
+      <Table>
         <thead>
         <tr>
           <th>Game</th>
@@ -52,7 +52,7 @@ class Scoreboard extends Component {
             <td>
               <ListGroup>
                 {game.highscores.map((highscore, index) => (
-                  <ListGroup.Item key={index}>{index+1}. {highscore.name} ({highscore.score})</ListGroup.Item>
+                  <ListGroup.Item key={index}>{index+1}. {highscore.alias} ({highscore.score})</ListGroup.Item>
                 ))}
               </ListGroup>
             </td>
