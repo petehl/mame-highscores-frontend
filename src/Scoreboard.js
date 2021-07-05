@@ -24,6 +24,7 @@ function Scoreboard() {
   const [data, setData] = useState([]);
   const { t } = useTranslation();
   const isChristmas = new Date().getMonth() === 11;
+  const MEDALS = [ `🥇`, `🥈`, `🥉` ];
 
   useEffect(() => {
     fetchData().then(setData);
@@ -76,7 +77,7 @@ function Scoreboard() {
               <td>
                 <ListGroup>
                   {game.highscores.map((highscore, index) => (
-                    <ListGroup.Item className={"place" + index} key={index}>{index + 1}. {highscore.alias} ({highscore.score})</ListGroup.Item>
+                    <ListGroup.Item className={"place" + index} key={index}>{MEDALS[index]} {highscore.alias} ({highscore.score})</ListGroup.Item>
                   ))}
                 </ListGroup>
               </td>
